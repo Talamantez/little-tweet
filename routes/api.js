@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var five  = require('johnny-five');
-var board = new five.Board();
+// var board = new five.Board();
 var app = require('../app.js');
 // var mongoose = require('mongoose');
 // var Superhero = mongoose.model('superheros');
@@ -28,7 +28,7 @@ router.post('/superheros', function(req,res) {
 
 router.post('/light', function(req,res) {
 	console.log('Light it up');
-	res.send('hey there');
+	res.send('hi');
 	var delay = 1000;
 	var ledPins = [2,4,6,8,10,12];
 	var leds = new five.Leds(ledPins);
