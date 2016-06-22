@@ -1,0 +1,22 @@
+{
+  "name": "node-express-swig-mongo",
+  "description": "",
+  "main": "",
+  "authors": [
+    "Robert Talamantez <robert.talamantez2@gmail.com>"
+  ],
+  "license": "MIT",
+  "moduleType": [],
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "public/bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "~3.3.6"
+  }
+}
