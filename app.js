@@ -74,5 +74,19 @@ app.use('/api', api);
 
 board.on("ready", function() {
   console.log('Board is ready !');
+  myServo = new five.Servo(9);
+
+  board.repl.inject({
+    servo: myServo
+  });
+
+  
+  myServo.sweep();
+
+  this.wait(5000, function(){
+    myServo.stop();
+    myServo.center();
+  });
+
 });
 module.exports = app;

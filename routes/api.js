@@ -29,10 +29,12 @@ router.post('/superheros', function(req,res) {
 router.post('/light', function(req,res) {
 	console.log('Light it up');
 	res.send('hi');
+
 	var delay = 1000;
 	var ledPins = [2,4,6,8,10,12];
 	var leds = new five.Leds(ledPins);
 	leds.on();
+
 });
 
 module.exports = router;
