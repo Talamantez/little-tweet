@@ -8,14 +8,14 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var swig = require('swig');
 var five  = require('johnny-five');
-var board = new five.Board();
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
 var api = require('./routes/api');
-
+// var myServo = null;
 var app = express();
 
+app.board = new five.Board();
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 
@@ -72,21 +72,27 @@ app.use(function(err, req, res, next) {
 // render an HTML form to the end user
 app.use('/api', api);
 
-board.on("ready", function() {
+app.board.on("ready", function() {
   console.log('Board is ready !');
-  myServo = new five.Servo(9);
+  app.myServo = new five.Servo(9);
 
-  board.repl.inject({
-    servo: myServo
-  });
+    var ledPins = [2,4,6,8,10,12];
+    app.leds = new five.Leds(ledPins);
 
-  
-  myServo.sweep();
 
-  this.wait(5000, function(){
-    myServo.stop();
-    myServo.center();
-  });
+  // myServo.sweep();
 
+ 
 });
+
+app.fireLeds = function() {
+  app.leds.on();
+}
+
+app.moveServo = function() {
+  app.myServo.sweep();
+}
+
+exports.fireLeds = app.fireLeds;
+exports.moveServo = app.moveServo;
 module.exports = app;
