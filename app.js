@@ -7,7 +7,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var swig = require('swig');
-var five  = require('johnny-five');
+var five = require('johnny-five');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
@@ -40,9 +40,9 @@ app.listen(app.get('port'));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
-  var err = new Error('Not Found');
-  err.status = 404;
-  next(err);
+    var err = new Error('Not Found');
+    err.status = 404;
+    next(err);
 });
 
 // error handlers
@@ -50,47 +50,56 @@ app.use(function(req, res, next) {
 // development error handler
 // will print stacktrace
 if (app.get('env') === 'development') {
-  app.use(function(err, req, res, next) {
-    res.status(err.status || 500);
-    res.render('error', {
-      message: err.message,
-      error: err
+    app.use(function(err, req, res, next) {
+        res.status(err.status || 500);
+        res.render('error', {
+            message: err.message,
+            error: err
+        });
     });
-  });
 }
 
 // production error handler
 // no stacktraces leaked to user
 app.use(function(err, req, res, next) {
-  res.status(err.status || 500);
-  res.render('error', {
-    message: err.message,
-    error: {}
-  });
+    res.status(err.status || 500);
+    res.render('error', {
+        message: err.message,
+        error: {}
+    });
 });
 
 // render an HTML form to the end user
 app.use('/api', api);
 
 app.board.on("ready", function() {
-  console.log('Board is ready !');
-  app.myServo = new five.Servo(9);
+    console.log('Board is ready !');
+    app.myServo = new five.Servo({
+        pin: 9,
+        startAt: 20
+    });
 
-    var ledPins = [2,4,6,8,10,12];
+    var ledPins = [2, 4, 6, 8, 10, 12];
     app.leds = new five.Leds(ledPins);
 
-
-  // myServo.sweep();
-
- 
 });
 
 app.fireLeds = function() {
-  app.leds.on();
+    app.leds.on();
+    setTimeout(function() {
+        app.leds.off();
+    }, 1000);
 }
 
 app.moveServo = function() {
-  app.myServo.sweep();
+    app.myServo.sweep({
+        range: [240, 0],
+        step: 20
+    });
+    setTimeout(function() {
+        console.log("in myServo timeout");
+        app.myServo.stop();
+    }, 12000);
 }
 
 exports.fireLeds = app.fireLeds;
